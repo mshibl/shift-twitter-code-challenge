@@ -20,6 +20,7 @@ gem 'crack' # in Gemfile
 gem 'byebug'
 
 gem 'hirb' # adds table styling in the console
+gem 'bcrypt' # adds passowrd encryption
 
 
 group :test do
