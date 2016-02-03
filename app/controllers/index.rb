@@ -11,5 +11,11 @@ end
 
 post '/users' do
   user = JSON.parse(request.body.read)
-  User.create(first_name: user['first_name'], last_name: user['last_name'])
+  new_user = User.new(first_name: user['first_name'], last_name: user['last_name'], email: user['email'])
+  new_user.password = user['password']
+  if new_user.save
+  	puts "user created"
+  else
+  	puts "something went wrong"
+  end  
 end
