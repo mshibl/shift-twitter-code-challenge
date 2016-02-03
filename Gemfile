@@ -19,6 +19,8 @@ gem "httparty"
 gem 'crack' # in Gemfile
 gem 'byebug'
 
+gem 'hirb' # adds table styling in the console
+
 
 group :test do
   gem 'shoulda-matchers'
