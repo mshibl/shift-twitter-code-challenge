@@ -1,0 +1,28 @@
+<h1> Shift starter app </h1>
+  <div>
+    <label>New User</label>
+    <form novalidate>
+        First name: <input type="text" ng-model="user.firstName" /><br />
+        Last name: <input type="text" ng-model="user.lastName" /><br />
+
+        <input type="submit" ng-click="createUser(user)" value="Save" />
+    </form>
+    <br>
+    <br>
+
+    <span>{{ user.firstName }}</span>
+
+  </div>
+  <div>
+    <button ng-click="getUsers()">Load Users</button>
+    <br>
+    <label>Filter Users</label>
+    <input type="text" ng-model="nameFilter">
+
+    <ul>
+      <li ng-repeat="user in users | filter:nameFilter">
+        {{ user.first_name }}
+      </li>
+    </ul>
+  </div>
+

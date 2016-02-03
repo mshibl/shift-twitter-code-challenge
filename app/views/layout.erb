@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="shiftSampleApp">
+<head>
+  <!--
+    normalize.css removes cross-browser differences in defaults, e.g.,
+    differences in how form elements appear between Firefox and IE
+    See: http://necolas.github.com/normalize.css/
+  -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <!--
+    application.css is where you put your styles
+  -->
+  <link rel="stylesheet" href="/css/application.css">
+
+  <title></title>
+
+  <script src="/js/vendor/jquery-1.11.1.js"></script>
+  <script src="/js/vendor/angular.js"></script>
+  <script src="/js/vendor/angular-route.js"></script>
+
+  <script src="/js/application.js"></script>
+  <script src="/js/controllers/user_controller.js"></script>
+  <script src="/js/factories/user_factory.js"></script>
+
+
+
+</head>
+<body>
+  <div ng-view></div>
+
+</body>
+</html>
