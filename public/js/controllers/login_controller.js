@@ -3,6 +3,6 @@ shiftSampleApp
 		$scope.login = function(credentials){
 			AuthService.login(credentials)
 			// $location.path('/users/'+$sessionStorage.userID)
-			$location.path('/main')
+			$location.path('/profile')
 		}
 	})

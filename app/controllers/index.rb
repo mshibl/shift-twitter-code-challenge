@@ -15,6 +15,11 @@ post '/login' do
     # redirect_to home_url
   end
 end
+get '/users' do
+  users = User.all
+  content_type :json
+  users.to_json
+end
 
 get '/users/:id' do
   user = User.find(params[:id])
@@ -30,15 +35,23 @@ get '/users/:id' do
   user_data.to_json
 end
 
-get '/users' do
-  users = User.all
-  content_type :json
-  users.to_json
-end
 
-# get '/users/:id' do
-#   puts 'reached this point'
-# end    
+get '/users/:id/tweets' do
+  user = User.find(params[:id])
+  tweets = user.tweets
+  content_type :json
+  tweets.to_json
+end    
+
+post '/users/:id/tweets' do
+  tweet = JSON.parse(request.body.read)
+  new_tweet = Tweet.new(user_id: params[:id], text: tweet['text'])
+  if new_tweet.save
+    puts 'new tweet added'
+  else
+    puts 'something went wrong'
+  end
+end
 
 post '/users' do
   user = JSON.parse(request.body.read)
