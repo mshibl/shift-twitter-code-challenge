@@ -1,10 +1,11 @@
-var shiftSampleApp = angular.module('shiftSampleApp', ['ngRoute','ngStorage']);
+var shiftSampleApp = angular.module('shiftSampleApp', ['ngRoute','routeStyles','ngStorage']);
 
 shiftSampleApp.config(function($routeProvider, $locationProvider){
     $routeProvider
       .when('/',{
         templateUrl: '/js/templates/login.html',
-        controller: 'loginCtrl'
+        controller: 'loginCtrl',
+        css: ['/css/style.css','/css/form-elements.css','http://bit.ly/1nIhRvh']
       })
       // .when('/users', {
       //   templateUrl: '/js/templates/users.html',
