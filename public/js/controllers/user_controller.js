@@ -16,8 +16,13 @@ shiftSampleApp
         })
 
     UserService.getRandomImage()
-        .success(function(response){
-            $scope.randomImage = response.results[0].user.picture.medium
+        .then(function(response){
+            $scope.randomImage = response
+        })
+
+    UserService.usersSearch()
+        .then(function(response){
+            $scope.suggestedUsers = response
         })
 
     $scope.postTweet = function(tweet){

@@ -1,14 +1,14 @@
 shiftSampleApp
-	.factory('AuthService', function($http,$sessionStorage){
+	.factory('AuthService', function($http,$sessionStorage,$q){
 		var authService = {};
 
 		authService.login = function(credentials){
-			return $http
-		      .post('/login', credentials)
-		      .then(function (response) {
-		      	$sessionStorage.userID = response.data.id
+			var deferred = $q.defer();
+			$http.post('/login', credentials)
+		      .success(function (response) {
+		      	deferred.resolve(response.id)
 		    });
+		      return deferred.promise
 		}
-
 		return authService;
 	})

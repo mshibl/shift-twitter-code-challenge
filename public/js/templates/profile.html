@@ -60,10 +60,11 @@
                         </div>
                     </form>
                 </div>
+
                 <div class="thumbnail" ng-repeat="tweet in tweets"> <!-- Tweet Container -->
                     <div class="caption-full">
                         <h6 class="pull-right">{{tweet.created_at | date:'MM/dd/yyyy'}}</h6>
-                        <h4><a href="#">{{firstName}} {{lastName}}</a></h4>
+                        <h6><a href="#">{{firstName}} {{lastName}}</a></h6>
                         <p>{{tweet.text}}</p>
                     </div>
                     <div class="ratings">
@@ -79,6 +80,20 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-3">
+                    <div class="thumbnail">
+                        Search for more users
+                    </div>
+                    <br> 
+                    <br>
+                    <h3>Who to follow</h3>
+                    <div class="user-suggestions">
+                        <div class="thumbnail" ng-repeat="suggestedUser in suggestedUsers">
+                            <h5><a href="#">{{suggestedUser.first_name}} {{suggestedUser.last_name}}</a></h5>
+                        </div>
+                    </div>
+            </div>  
         </div>
     </div>
 </div>

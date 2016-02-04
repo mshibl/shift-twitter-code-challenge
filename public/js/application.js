@@ -14,7 +14,7 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
       })
 
       .otherwise({
-        redirectTo: '/users'
+        redirectTo: '/'
       });
 
       // use the HTML5 History API
