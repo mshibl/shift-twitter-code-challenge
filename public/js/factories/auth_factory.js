@@ -6,7 +6,6 @@ shiftSampleApp
 			return $http
 		      .post('/login', credentials)
 		      .then(function (response) {
-		      	console.log(response)
 		      	$sessionStorage.userID = response.data.id
 		    });
 		}

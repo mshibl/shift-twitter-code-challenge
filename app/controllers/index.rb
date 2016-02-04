@@ -16,11 +16,29 @@ post '/login' do
   end
 end
 
+get '/users/:id' do
+  user = User.find(params[:id])
+  user_data = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    id: user.id,
+    followers_count: user.followers.count,
+    friends_count: user.friends.count
+  }
+  content_type :json
+  user_data.to_json
+end
+
 get '/users' do
   users = User.all
   content_type :json
   users.to_json
 end
+
+# get '/users/:id' do
+#   puts 'reached this point'
+# end    
 
 post '/users' do
   user = JSON.parse(request.body.read)

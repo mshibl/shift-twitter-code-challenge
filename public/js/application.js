@@ -6,12 +6,13 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
         templateUrl: '/js/templates/login.html',
         controller: 'loginCtrl'
       })
-      .when('/users', {
-        templateUrl: '/js/templates/users.html',
+      // .when('/users', {
+      //   templateUrl: '/js/templates/users.html',
+      //   controller: 'UsersCtrl'
+      // })
+      .when('/main',{
+        templateUrl: '/js/templates/main.html',
         controller: 'UsersCtrl'
-      })
-      .when('/users/:id',{
-        templateUrl: '/js/templates/profile.html'
       })
       //add new angular routes below
 
