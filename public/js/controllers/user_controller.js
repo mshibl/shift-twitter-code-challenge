@@ -28,4 +28,13 @@ shiftSampleApp
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
     }
+
+    $scope.followFriend = function(friendId){
+        UserService.followFriend(friendId)
+            .then(function(response){
+                if(response == true){
+                    $scope.friendsCount += 1
+                }
+            })
+    }
   });

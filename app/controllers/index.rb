@@ -23,7 +23,7 @@ get '/users' do
 end
 
 get '/users/:id/search/:count' do
-  user = User.find(params[:id])
+  user = User.find(params[:id].to_i)
   count = params[:count].to_i
   start = 1
   finish = count
@@ -40,7 +40,7 @@ get '/users/:id/search/:count' do
 end
 
 get '/users/:id' do
-  user = User.find(params[:id])
+  user = User.find(params[:id].to_i)
   user_data = {
     first_name: user.first_name,
     last_name: user.last_name,
@@ -53,9 +53,8 @@ get '/users/:id' do
   user_data.to_json
 end
 
-
 get '/users/:id/tweets' do
-  user = User.find(params[:id])
+  user = User.find(params[:id].to_i)
   tweets = user.tweets
   content_type :json
   tweets.to_json
@@ -63,12 +62,22 @@ end
 
 post '/users/:id/tweets' do
   tweet = JSON.parse(request.body.read)
-  new_tweet = Tweet.new(user_id: params[:id], text: tweet['text'])
+  new_tweet = Tweet.new(user_id: params[:id].to_i, text: tweet['text'])
   if new_tweet.save
     puts 'new tweet added'
   else
     puts 'something went wrong'
   end
+end
+
+post '/users/:id/follow' do
+  friend_id = JSON.parse(request.body.read)
+  relationship = Relationship.new(friend_id: friend_id['friendId'], follower_id: params[:id].to_i)
+  if relationship.save
+    puts "relationship created"
+  else
+    puts "something went wrong"
+  end 
 end
 
 post '/users' do

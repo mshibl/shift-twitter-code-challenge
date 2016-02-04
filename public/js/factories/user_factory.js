@@ -20,7 +20,6 @@ shiftSampleApp
 			$http.get('https://randomuser.me/api/')
 				.success(function(response){
 					deferred.resolve(response.results[0].user.picture.medium)
-					// return response.results[0].user.picture.medium
 				})
 			return deferred.promise;
 		};
@@ -34,6 +33,15 @@ shiftSampleApp
 			return deferred.promise;
 		};
 
+		userService.followFriend = function(friendId){
+			var deferred = $q.defer();
+			var params = {friendId: friendId}
+			$http.post('/users/'+$sessionStorage.userId+'/follow',params)
+				.success(function(){
+					deferred.resolve(true)
+				})
+			return deferred.promise;
+		};		
 
 		return userService;
 	})
