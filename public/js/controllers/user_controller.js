@@ -13,7 +13,11 @@ shiftSampleApp
     UserService.getUserTweets()
         .success(function(response){
             $scope.tweets = response
-            console.log($scope.tweets)
+        })
+
+    UserService.getRandomImage()
+        .success(function(response){
+            $scope.randomImage = response.results[0].user.picture.medium
         })
 
     $scope.postTweet = function(tweet){

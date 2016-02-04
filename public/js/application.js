@@ -7,13 +7,10 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
         controller: 'loginCtrl',
         css: ['/css/style.css','/css/form-elements.css','http://bit.ly/1nIhRvh']
       })
-      // .when('/users', {
-      //   templateUrl: '/js/templates/users.html',
-      //   controller: 'UsersCtrl'
-      // })
       .when('/profile',{
         templateUrl: '/js/templates/profile.html',
-        controller: 'UsersCtrl'
+        controller: 'UsersCtrl',
+        css: '/css/profile.css'
       })
 
       .otherwise({
