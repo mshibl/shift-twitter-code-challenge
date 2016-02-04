@@ -3,6 +3,19 @@ get '/' do
   erb :index
 end
 
+post '/login' do
+  credentials = JSON.parse(request.body.read)
+  user = User.find_by_email(credentials['email'].downcase)
+  if !user.nil? && user.password == credentials['password']
+    puts user
+    content_type :json
+    user.to_json(except: :password_hash)
+  else
+    puts 'something went wrong'
+    # redirect_to home_url
+  end
+end
+
 get '/users' do
   users = User.all
   content_type :json

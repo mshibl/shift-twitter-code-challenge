@@ -1,0 +1,25 @@
+  <div>
+    <label>Login</label>
+    <form name="loginForm" novalidate>
+      Email: <input name='input' type="email" ng-model="credentials.email" required><br />
+      Password: <input type="password" ng-model="credentials.password" /><br />
+      <input type="submit" ng-click="login(credentials)" value="Login" />
+    </form>
+    <br>
+    <br>
+  </div>
+
+<!--   <div>
+    <label>New User</label>
+    <form name="myForm" novalidate>
+      First name: <input type="text" ng-model="user.firstName" /><br />
+      Last name: <input type="text" ng-model="user.lastName" /><br />
+      Email: <input name='input' type="email" ng-model="user.email" required><br />
+      Password: <input type="password" ng-model="user.password" /><br />
+      <!-- Confirm Password: <input type="password" ng-model="user.password" /><br /> -->
+<!--       <input type="submit" ng-click="createUser(user)" value="Save" />
+    </form>
+    <br>
+    <br> -->
+    <!-- <span>{{ user.firstName }}</span> -->
+  <!-- </div> -->
