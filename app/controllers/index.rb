@@ -81,10 +81,10 @@ post '/users/:id/follow' do
 end
 
 post '/users' do
-  user = JSON.parse(request.body.read)
-  new_user = User.new(first_name: user['first_name'], last_name: user['last_name'], email: user['email'])
-  new_user.password = user['password']
-  if new_user.save
+  credentials = JSON.parse(request.body.read)
+  user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'])
+  user.password = credentials['password']
+  if user.save
   	puts "user created"
   else
   	puts "something went wrong"

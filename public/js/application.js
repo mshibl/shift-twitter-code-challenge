@@ -4,7 +4,7 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
     $routeProvider
       .when('/',{
         templateUrl: '/js/templates/login.html',
-        controller: 'loginCtrl',
+        controller: 'LoginCtrl',
         css: ['/css/style.css','/css/form-elements.css','http://bit.ly/1nIhRvh']
       })
       .when('/profile',{

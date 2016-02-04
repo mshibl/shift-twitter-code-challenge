@@ -16,9 +16,11 @@
               <div class="row">
                   <div class="col-sm-6 col-sm-offset-3 form-box">
                     <div class="form-top">
-                      <div class="form-top-left">
-                        <h3>Login</h3>
-                          <p>Enter your username and password to log on:</p>
+                      <div class="form-top-left" class="btn ng-hide" ng-show="loginView">
+                        <h3>Login</h3> <p>Enter your username and password to log on:</p>
+                      </div>
+                      <div class="form-top-left" class="btn ng-hide" ng-hide="loginView">
+                        <h3>Sign Up</h3> <p>Enter your account infomration to complete signing up:</p>
                       </div>
                       <div class="form-top-right">
                         <i class="fa fa-key"></i>
@@ -26,15 +28,29 @@
                       </div>
                       <div class="form-bottom">
                     <form role="form" name="loginForm" class="login-form" novalidate>
+                      <div class="form-group ng-hide" ng-hide="loginView">
+                        <label class="sr-only" for="form-username">First Name</label>
+                          <input type="text" name="form-username" placeholder="First Name..." class="form-username form-control" id="form-username" ng-model="credentials.firstName" required>
+                      </div>
+                      <div class="form-group ng-hide" ng-hide="loginView">
+                        <label class="sr-only" for="form-username">Last Name</label>
+                          <input type="text" name="form-username" placeholder="Last Name..." class="form-username form-control" id="form-username" ng-model="credentials.lastName" required>
+                      </div>
                       <div class="form-group">
-                        <label class="sr-only" for="form-username">Username</label>
+                        <label class="sr-only" for="form-username">Email</label>
                           <input type="email" name="form-username" placeholder="Email..." class="form-username form-control" id="form-username" ng-model="credentials.email" required>
-                        </div>
-                        <div class="form-group">
+                      </div>
+                      <div class="form-group">
                           <label class="sr-only" for="form-password">Password</label>
                           <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password" ng-model="credentials.password">
-                        </div>
-                        <button type="submit" class="btn" ng-click="login(credentials)">Sign in!</button>
+                      </div>
+<!--                       <div class="form-group ng-hide" ng-hide="loginView">
+                          <label class="sr-only" for="form-password">Password Confirmation</label>
+                          <input type="password" name="form-password" placeholder="Confirm Password..." class="form-password form-control" id="form-password" ng-model="credentials.confirmPassword">
+                      </div> -->
+                        <button class="ng-hide btn" ng-show="loginView" type="submit" ng-click="login(credentials)">Sign in!</button>
+                        <button type="submit" class="btn ng-hide" ng-show="loginView" ng-click="loginView = !loginView" id="signup">or Create Account!</button>
+                        <button type="submit" class="btn ng-hide" ng-hide="loginView" ng-click="createAccount(credentials)" id="signup">Sign Up!</button>
                     </form>
                   </div>
                   </div>
