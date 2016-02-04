@@ -21,7 +21,7 @@ gem 'byebug'
 
 gem 'hirb' # adds table styling in the console
 gem 'bcrypt' # adds passowrd encryption
-
+gem 'faker'
 
 group :test do
   gem 'shoulda-matchers'
@@ -32,5 +32,5 @@ end
 
 group :test, :development do
   gem 'factory_girl'
-  gem 'faker'
+  # gem 'faker'
 end
