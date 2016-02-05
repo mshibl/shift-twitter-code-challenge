@@ -5,19 +5,26 @@ shiftSampleApp
 		authService.login = function(credentials){
 			var deferred = $q.defer();
 			$http.post('/login', credentials)
-		      .success(function (response) {
-		      	deferred.resolve(response.id)
-		    });
+		      .then(
+		      function (response) {
+		      		deferred.resolve(response.id)
+		   		},function (response){
+		    		deferred.reject(response.data)
+		    	})
 		      return deferred.promise
 		}
 
 		authService.createAccount = function(credentials){
 			var deferred = $q.defer();
 			$http.post('/users',credentials)
-				.success(function(){
-					deferred.resolve(credentials.id)
-				});
-				return deferred.promise
+				.then(
+			      function (response) {
+			      		deferred.resolve(response.id)
+			   		},function (response){
+			   			console.log(response)
+			    		deferred.reject(response.data)
+			    	})
+			      return deferred.promise
 		}
 
 		return authService;

@@ -1,20 +1,34 @@
 shiftSampleApp
 	.controller('LoginCtrl', function(AuthService, $scope, $sessionStorage, $location, $http,$timeout){
-		$scope.login = function(credentials){
-			 AuthService.login(credentials)
-			 	.then(function(response){
-			 		$sessionStorage.userId = response;
-					$timeout($location.path('/profile'),6000);
-			 	})
+		$scope.login = function(formValid,credentials){
+			if(formValid){
+				AuthService.login(credentials)
+				 	.then(
+				 		function(response){
+					 		$sessionStorage.userId = response;
+							$location.path('/profile');
+				 		}, function(response){
+				 			$scope.errorMessage = response
+				 		})
+			} else {
+				console.log('form invalid')
 			}
+		}
 
-		$scope.createAccount = function(credentials){
-			console.log(credentials)
-			AuthService.createAccount(credentials)
-			 	.then(function(response){
-			 		$sessionStorage.userId = response;
-					$timeout($location.path('/profile'),8000);
-			 	})
+		$scope.createAccount = function(formValid,credentials){
+			if(formValid){
+				console.log(credentials)
+				AuthService.createAccount(credentials)
+				 	.then(
+				 		function(response){
+					 		$sessionStorage.userId = response;
+							$location.path('/profile');
+				 		}, function(response){
+				 			$scope.errorMessage = response
+				 		})
+			} else {
+				console.log('form invalid')
+			}
 		}
 
 		$scope.loginView = true;

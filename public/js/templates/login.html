@@ -20,46 +20,77 @@
                         <h3>Login</h3> <p>Enter your username and password to log on:</p>
                       </div>
                       <div class="form-top-left" class="btn ng-hide" ng-hide="loginView">
-                        <h3>Sign Up</h3> <p>Enter your account infomration to complete signing up:</p>
+                        <h3>Sign Up</h3> <p>Enter your account infomration to create account:</p>
                       </div>
                       <div class="form-top-right">
                         <i class="fa fa-key"></i>
                       </div>
                       </div>
                       <div class="form-bottom">
+      <!-- Login/Create Account Form -->
                     <form role="form" name="loginForm" class="login-form" novalidate>
-                      <div class="form-group ng-hide" ng-hide="loginView">
-                        <label class="sr-only" for="form-username">First Name</label>
-                          <input type="text" name="form-username" placeholder="First Name..." class="form-username form-control" id="form-username" ng-model="credentials.firstName" required>
+          <!-- First Name -->
+                      <div class="form-group ng-hide" ng-hide="loginView" ng-class="{ 'has-error': loginForm.firstName.$touched && loginForm.firstName.$invalid }">
+                        <label class="sr-only" for="firstName">First Name</label>
+                        <input type="text" name="firstName" placeholder="First Name..." class="form-username form-control" id="form-username" ng-model="credentials.firstName" required>
+                        <div class="help-block" ng-messages="loginForm.firstName.$error" ng-if="loginForm.firstName.$touched">
+                          <p ng-message="required">This field is required</p>
+                        </div> 
                       </div>
-                      <div class="form-group ng-hide" ng-hide="loginView">
-                        <label class="sr-only" for="form-username">Last Name</label>
-                          <input type="text" name="form-username" placeholder="Last Name..." class="form-username form-control" id="form-username" ng-model="credentials.lastName" required>
+          <!-- Last Name -->
+                      <div class="form-group ng-hide" ng-hide="loginView" ng-class="{ 'has-error': loginForm.lastName.$touched && loginForm.lastName.$invalid }">
+                        <label class="sr-only" for="lastName">Last Name</label>
+                        <input type="text" name="lastName" placeholder="Last Name..." class="form-username form-control" id="form-username" ng-model="credentials.lastName" required>
+                        <div class="help-block" ng-messages="loginForm.lastName.$error" ng-if="loginForm.lastName.$touched">
+                          <p ng-message="required">This field is required</p>
+                        </div> 
                       </div>
-                      <div class="form-group">
+          <!-- Email -->
+                      <div class="form-group" ng-class="{ 'has-error': loginForm.email.$touched && loginForm.email.$invalid }">
                         <label class="sr-only" for="form-username">Email</label>
-                          <input type="email" name="form-username" placeholder="Email..." class="form-username form-control" id="form-username" ng-model="credentials.email" required>
-                      </div>
-                      <div class="form-group">
-                          <label class="sr-only" for="form-password">Password</label>
-                          <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password" ng-model="credentials.password">
-                      </div>
+                        <input type="email" name="email" placeholder="Email..." class="form-username form-control" id="form-username" ng-model="credentials.email" required>
+                        <div class="help-block" ng-messages="loginForm.email.$error" ng-if="loginForm.email.$touched">
+                          <p ng-message="required">This field is required</p>
+                          <p ng-message="email">This needs to be a valid email</p>
+                        </div>
+                      </div> 
+          <!-- Password -->
+                      <div class="form-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
+                          <label class="sr-only" for="password">Password</label>
+                          <input type="password" name="password" ng-minlength="6" ng-maxlength="20" placeholder="Password..." class="form-password form-control" id="form-password" ng-model="credentials.password" required>
+                        </div>
+                        <div class="help-block" ng-messages="loginForm.password.$error" ng-if="loginForm.password.$touched">
+                          <!-- <div ng-messages-include="messages.html"></div> -->
+                          <p ng-message="required">This field is required</p>
+                          <p ng-message="minlength">Password is too short</p>
+                          <p ng-message="maxlength">Password is too long</p>
+                      </div> 
+          <!-- Password Confirmation-->
 <!--                       <div class="form-group ng-hide" ng-hide="loginView">
                           <label class="sr-only" for="form-password">Password Confirmation</label>
                           <input type="password" name="form-password" placeholder="Confirm Password..." class="form-password form-control" id="form-password" ng-model="credentials.confirmPassword">
                       </div> -->
-                        <button class="ng-hide btn" ng-show="loginView" type="submit" ng-click="login(credentials)">Sign in!</button>
-                        <button type="submit" class="btn ng-hide" ng-show="loginView" ng-click="loginView = !loginView" id="signup">or Create Account!</button>
-                        <button type="submit" class="btn ng-hide" ng-hide="loginView" ng-click="createAccount(credentials)" id="signup">Sign Up!</button>
+          <!-- Error Message -->
+                        <div class="alert alert-warning" ng-if="errorMessage">
+                          <span>{{errorMessage}}, please try again</span>
+                        </div>
+          <!-- Sign in Button -->
+                        <button class="btn" ng-if="loginView" type="submit" ng-click="login(loginForm.$valid,credentials)">Sign in</button>
+          <!-- Sign Up Button -->
+                        <button type="submit" class="btn" ng-if="!loginView" ng-click="createAccount(loginForm.$valid,credentials)">Create Account</button>
                     </form>
+          <!-- Toggle Sign In / Create Account --> 
+                        <button type="submit" class="btn" ng-click="loginView = !loginView" id="toggle-login-view">{{ loginView && 'or Create Account!' || 'or Sign In!' }}</button>
+      <!-- End of Form -->
+
                   </div>
                   </div>
               </div>
               <div class="row">
                   <div class="col-sm-6 col-sm-offset-3 social-login">
-                    <!-- <h3>...check project on:</h3> -->
+                    <h3>...Check project on Github:</h3>
                     <div class="social-login-buttons">
-                      <a class="btn btn-link-1 btn-link-1-github" href="#">
+                      <a class="btn btn-link-1 btn-link-1-github" href="https://github.com/mshibl/shift-twitter-code-challenge">
                         <i class="fa fa-github"></i> Gitub
                       </a>
                     </div>

@@ -1,4 +1,4 @@
-var shiftSampleApp = angular.module('shiftSampleApp', ['ngRoute','routeStyles','ngStorage']);
+var shiftSampleApp = angular.module('shiftSampleApp', ['ngMessages','ngRoute','routeStyles','ngStorage']);
 
 shiftSampleApp.config(function($routeProvider, $locationProvider){
     $routeProvider

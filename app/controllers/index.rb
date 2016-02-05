@@ -3,18 +3,35 @@ get '/' do
   erb :index
 end
 
-post '/login' do
-  credentials = JSON.parse(request.body.read)
-  user = User.find_by_email(credentials['email'].downcase)
-  if !user.nil? && user.password == credentials['password']
-    puts user
-    content_type :json
-    user.to_json(except: :password_hash)
-  else
-    puts 'something went wrong'
-    # redirect_to home_url
+# User Login
+  post '/login' do
+    credentials = JSON.parse(request.body.read)
+    user = User.find_by_email(credentials['email'].downcase)
+    if !user.nil? && user.password == credentials['password']
+      content_type :json
+      user.to_json(except: :password_hash)
+    else
+      puts 'something went wrong, user failed to sign in'
+      status 401
+      body 'Either email or password incorrect'
+    end
   end
-end
+
+# Create new user account
+  post '/users' do
+    credentials = JSON.parse(request.body.read)
+    user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'])
+    user.password = credentials['password']
+    if user.save
+      content_type :json
+      user.to_json(except: :password_hash)
+    else
+      puts "something went wrong, failed to create new account"
+      error = user.errors.full_messages[0]
+      status 409
+      body error
+    end  
+  end
 
 get '/users' do
   users = User.all
@@ -78,15 +95,4 @@ post '/users/:id/follow' do
   else
     puts "something went wrong"
   end 
-end
-
-post '/users' do
-  credentials = JSON.parse(request.body.read)
-  user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'])
-  user.password = credentials['password']
-  if user.save
-  	puts "user created"
-  else
-  	puts "something went wrong"
-  end  
 end
