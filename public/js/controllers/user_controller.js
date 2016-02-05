@@ -48,7 +48,7 @@ shiftSampleApp
         UserService.followFriend(friend.id)
             .then(function(response){
                 if(response == true){
-                    $scope.userFriendsCount += 1
+                    $scope.friendsCount += 1
                     $scope.suggestedUsers
                     var index = $scope.suggestedUsers.indexOf(friend);
                     $scope.suggestedUsers.splice(index, 1);
