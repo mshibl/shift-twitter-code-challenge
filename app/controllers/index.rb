@@ -1,3 +1,8 @@
+after do
+  logger.info "clearing active connection for this thread"
+  ActiveRecord::Base.connection.close
+end
+
 # single view and route that you will layer angular on top of
 get '/' do
   erb :index
