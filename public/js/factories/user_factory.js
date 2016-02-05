@@ -72,6 +72,7 @@ shiftSampleApp
 			$http.delete('/users/'+$localStorage.id+'/logout')
 				.then(function(res){
 					$localStorage.$reset()
+					$sessionStorage.$reset()
 					deferred.resolve(res)
 				})
 			return deferred.promise;

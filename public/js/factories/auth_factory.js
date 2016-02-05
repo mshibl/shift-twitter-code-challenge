@@ -7,12 +7,12 @@ shiftSampleApp
 			$http.post('/login', credentials)
 		      .then(
 		      	function (response) {
-		      		$localStorage.firstName = response.data.first_name
-		      		$localStorage.lastName = response.data.last_name
+		      		$sessionStorage.firstName = response.data.first_name
+		      		$sessionStorage.lastName = response.data.last_name
 		      		$localStorage.token = response.data.token;
 		      		$localStorage.id = response.data.user_id;
-		      		$localStorage.followers = response.data.followers_count;
-		      		$localStorage.friends = response.data.friends_count;
+		      		$sessionStorage.followers = response.data.followers_count;
+		      		$sessionStorage.friends = response.data.friends_count;
 		      		deferred.resolve(response.data)
 		   		},function (response){
 		   			console.log('login failed in auth factory')
