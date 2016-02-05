@@ -8,8 +8,11 @@ end
     credentials = JSON.parse(request.body.read)
     user = User.find_by_email(credentials['email'].downcase)
     if !user.nil? && user.password == credentials['password']
+      user.token = Faker::Internet.password
+      user.save
+      response = {user_id: user.id, token: user.token}
       content_type :json
-      user.to_json(except: :password_hash)
+      response.to_json
     else
       puts 'something went wrong, user failed to sign in'
       status 401
@@ -58,16 +61,20 @@ end
 
 get '/users/:id' do
   user = User.find(params[:id].to_i)
-  user_data = {
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    id: user.id,
-    followers_count: user.followers.count,
-    friends_count: user.friends.count
-  }
-  content_type :json
-  user_data.to_json
+  if !!user.logged_in(params[:id],params['token'])
+    user_data = {
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      id: user.id,
+      followers_count: user.followers.count,
+      friends_count: user.friends.count
+    }
+    content_type :json
+    user_data.to_json
+  else  
+    status 401
+  end
 end
 
 get '/users/:id/tweets' do
@@ -82,8 +89,10 @@ post '/users/:id/tweets' do
   new_tweet = Tweet.new(user_id: params[:id].to_i, text: tweet['text'])
   if new_tweet.save
     puts 'new tweet added'
+    content_type :json
+    new_tweet.to_json
   else
-    puts 'something went wrong'
+    400
   end
 end
 

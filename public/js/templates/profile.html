@@ -61,7 +61,7 @@
                     </form>
                 </div>
 
-                <div class="thumbnail" ng-repeat="tweet in tweets"> <!-- Tweet Container -->
+                <div class="thumbnail" ng-repeat="tweet in tweets | orderBy: '-created_at'"> <!-- Tweet Container -->
                     <div class="caption-full">
                         <h6 class="pull-right">{{tweet.created_at | date:'MM/dd/yyyy'}}</h6>
                         <h6><a href="#">{{firstName}} {{lastName}}</a></h6>

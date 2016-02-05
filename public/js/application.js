@@ -7,7 +7,7 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
         controller: 'LoginCtrl',
         css: ['/css/style.css','/css/form-elements.css','https://bit.ly/1nIhRvh']
       })
-      .when('/profile',{
+      .when('/users/:id',{
         templateUrl: '/js/templates/profile.html',
         controller: 'UsersCtrl',
         css: '/css/profile.css'
@@ -18,6 +18,6 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
       });
 
       // use the HTML5 History API
-      $locationProvider.html5Mode(true);
+      // $locationProvider.html5Mode(true);
   });
 

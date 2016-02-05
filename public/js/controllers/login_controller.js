@@ -5,8 +5,7 @@ shiftSampleApp
 				AuthService.login(credentials)
 				 	.then(
 				 		function(response){
-					 		$sessionStorage.userId = response;
-							$location.path('/profile');
+							$location.path('/users/'+response);
 				 		}, function(response){
 				 			$scope.errorMessage = response
 				 		})
@@ -22,7 +21,7 @@ shiftSampleApp
 				 	.then(
 				 		function(response){
 					 		$sessionStorage.userId = response;
-							$location.path('/profile');
+							$location.path('/users/'+$sessionStorage.userId);
 				 		}, function(response){
 				 			$scope.errorMessage = response
 				 		})

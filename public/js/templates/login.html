@@ -32,7 +32,7 @@
           <!-- First Name -->
                       <div class="form-group ng-hide" ng-hide="loginView" ng-class="{ 'has-error': loginForm.firstName.$touched && loginForm.firstName.$invalid }">
                         <label class="sr-only" for="firstName">First Name</label>
-                        <input type="text" name="firstName" placeholder="First Name..." class="form-username form-control" id="form-username" ng-model="credentials.firstName" required>
+                        <input type="text" name="firstName" placeholder="First Name..." class="form-username form-control" id="form-username" ng-model="credentials.firstName" ng-required="!loginView">
                         <div class="help-block" ng-messages="loginForm.firstName.$error" ng-if="loginForm.firstName.$touched">
                           <p ng-message="required">This field is required</p>
                         </div> 
@@ -40,7 +40,7 @@
           <!-- Last Name -->
                       <div class="form-group ng-hide" ng-hide="loginView" ng-class="{ 'has-error': loginForm.lastName.$touched && loginForm.lastName.$invalid }">
                         <label class="sr-only" for="lastName">Last Name</label>
-                        <input type="text" name="lastName" placeholder="Last Name..." class="form-username form-control" id="form-username" ng-model="credentials.lastName" required>
+                        <input type="text" name="lastName" placeholder="Last Name..." class="form-username form-control" id="form-username" ng-model="credentials.lastName" ng-required="!loginView">
                         <div class="help-block" ng-messages="loginForm.lastName.$error" ng-if="loginForm.lastName.$touched">
                           <p ng-message="required">This field is required</p>
                         </div> 

@@ -1,19 +1,42 @@
 shiftSampleApp
-	.factory('UserService', function($http,$sessionStorage,$q){
+	.factory('UserService', function($http,$sessionStorage,$localStorage,$q,$location){
 		var userService = {};
 
+
 		userService.getUserData = function(){
-		    return $http.get('/users/'+$sessionStorage.userId)
+			var deferred = $q.defer();
+			$http.get('/users/'+$localStorage.id, {params: {'token': $localStorage.token}})
+				.then(
+					function(response){
+						deferred.resolve(response.data)
+					}, function(response){
+						$location.path('/');
+					})
+				return deferred.promise
 			};
 
 		userService.getUserTweets = function(){
-		    return $http.get('/users/'+$sessionStorage.userId+'/tweets')
+			var deferred = $q.defer();
+		    $http.get('/users/'+$localStorage.id+'/tweets')
+		    	.then(
+					function(response){
+						deferred.resolve(response)
+					}, function(response){
+						$location.path('/');
+					})
+				return deferred.promise
 			};
 
 		userService.postTweet = function(tweet){
 			var params = {text: tweet}
-			$http.post('/users/'+$sessionStorage.userId+'/tweets',params)
-		}
+			var deferred = $q.defer();
+			$http.post('/users/'+$localStorage.id+'/tweets',params)
+				.then(
+					function(response){
+						deferred.resolve(response.data)
+					})
+			return deferred.promise
+			};
 
 		userService.getRandomImage = function(){
 			var deferred = $q.defer();

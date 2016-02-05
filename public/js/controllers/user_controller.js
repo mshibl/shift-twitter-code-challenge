@@ -1,18 +1,18 @@
 shiftSampleApp
-  .controller('UsersCtrl', function (UserService, $scope, $http,$sessionStorage) {
+  .controller('UsersCtrl', function (UserService, $scope, $http,$sessionStorage,$q,$location) {
 
     UserService.getUserData()
-        .success(function(userData){
-            $scope.firstName = userData.first_name
-            $scope.lastName = userData.last_name
-            $scope.email = userData.email
-            $scope.followersCount = userData.followers_count
-            $scope.friendsCount = userData.friends_count
-        })
+        .then(function(userData){
+                $scope.firstName = userData.first_name
+                $scope.lastName = userData.last_name
+                $scope.email = userData.email
+                $scope.followersCount = userData.followers_count
+                $scope.friendsCount = userData.friends_count
+            })
 
     UserService.getUserTweets()
-        .success(function(response){
-            $scope.tweets = response
+        .then(function(response){
+            $scope.tweets = response.data
         })
 
     UserService.getRandomImage()
@@ -27,6 +27,11 @@ shiftSampleApp
 
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
+            .then(function(res){
+                console.log(res)
+                console.log($scope.tweets)
+                $scope.tweets.push(res)
+            })
     }
 
     $scope.followFriend = function(friendId){
