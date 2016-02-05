@@ -1,7 +1,17 @@
 shiftSampleApp
-  .controller('UsersCtrl', function (UserService, $scope, $http,$sessionStorage,$q,$location) {
+  .controller('UsersCtrl', function (UserService, $routeParams, $scope, $http,$localStorage,$q,$location) {
+    var id = $routeParams.id
+    $scope.tweetPermission = (id == $localStorage.id)
+    $scope.userFirstName = $localStorage.firstName
+    $scope.userLastName = $localStorage.lastName
+    $scope.userFollowersCount = $localStorage.followers
+    $scope.userFriendsCount = $localStorage.friends
+    UserService.getRandomImage()
+        .then(function(res){
+            $scope.userImage = res
+        })
 
-    UserService.getUserData()
+    UserService.getUserData(id)
         .then(function(userData){
                 $scope.firstName = userData.first_name
                 $scope.lastName = userData.last_name
@@ -10,15 +20,17 @@ shiftSampleApp
                 $scope.friendsCount = userData.friends_count
             })
 
-    UserService.getUserTweets()
+    UserService.getUserTweets(id)
         .then(function(response){
             $scope.tweets = response.data
         })
 
-    UserService.getRandomImage()
+    if(!$scope.tweetPermission){
+        UserService.getRandomImage()
         .then(function(response){
-            $scope.randomImage = response
+            $scope.targetUserImage = response
         })
+    }
 
     UserService.usersSearch()
         .then(function(response){
@@ -36,7 +48,7 @@ shiftSampleApp
         UserService.followFriend(friend.id)
             .then(function(response){
                 if(response == true){
-                    $scope.friendsCount += 1
+                    $scope.userFriendsCount += 1
                     $scope.suggestedUsers
                     var index = $scope.suggestedUsers.indexOf(friend);
                     $scope.suggestedUsers.splice(index, 1);

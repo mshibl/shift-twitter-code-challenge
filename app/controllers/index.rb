@@ -15,7 +15,7 @@ end
     if !user.nil? && user.password == credentials['password']
       user.token = Faker::Internet.password
       user.save
-      response = {user_id: user.id, token: user.token}
+      response = {followers_count: user.followers.count, friends_count: user.friends.count, first_name: user.first_name, last_name: user.last_name, user_id: user.id, token: user.token}
       content_type :json
       response.to_json
     else
@@ -73,7 +73,7 @@ end
 
 get '/users/:id' do
   user = User.find(params[:id].to_i)
-  if !!user.logged_in(params[:id],params['token'])
+  if !!user.logged_in(params['requesterId'],params['token'])
     user_data = {
       first_name: user.first_name,
       last_name: user.last_name,

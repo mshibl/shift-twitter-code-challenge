@@ -2,26 +2,27 @@ shiftSampleApp
 	.factory('UserService', function($http,$sessionStorage,$localStorage,$q,$location){
 		var userService = {};
 
-
-		userService.getUserData = function(){
+		userService.getUserData = function(id){
 			var deferred = $q.defer();
-			$http.get('/users/'+$localStorage.id, {params: {'token': $localStorage.token}})
+			$http.get('/users/'+id, {params: {'requesterId': $localStorage.id,'token': $localStorage.token}})
 				.then(
 					function(response){
 						deferred.resolve(response.data)
 					}, function(response){
+						console.log('failed while getting user data')
 						$location.path('/');
 					})
 				return deferred.promise
 			};
 
-		userService.getUserTweets = function(){
+		userService.getUserTweets = function(id){
 			var deferred = $q.defer();
-		    $http.get('/users/'+$localStorage.id+'/tweets')
+		    $http.get('/users/'+id+'/tweets')
 		    	.then(
 					function(response){
 						deferred.resolve(response)
 					}, function(response){
+						console.log('failed while getting tweets')
 						$location.path('/');
 					})
 				return deferred.promise
