@@ -13,8 +13,6 @@ shiftSampleApp
 		      		$localStorage.id = response.data.user_id;
 		      		$localStorage.followers = response.data.followers_count;
 		      		$localStorage.friends = response.data.friends_count;
-		      		// $localStorage.userImage = UserService.getRandomImage()
-		      		// .then(function(res){$localStorage.userImage = res})
 		      		deferred.resolve(response.data)
 		   		},function (response){
 		   			console.log('login failed in auth factory')

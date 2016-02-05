@@ -62,4 +62,9 @@ shiftSampleApp
                 $location.path('/');
             })
     }
+
+    $scope.goHome = function(){
+        $location.path('/users/'+$localStorage.id);
+    }
+
   });
