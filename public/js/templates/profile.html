@@ -94,7 +94,7 @@
                     <div class="user-suggestions">
                         <div class="thumbnail" ng-repeat="suggestedUser in suggestedUsers">
                             <h5><a href="#">{{suggestedUser.first_name}} {{suggestedUser.last_name}}</a></h5>
-                        <button type="button" class="btn btn-default btn-sm" ng-click="followFriend(this.suggestedUser.id)">
+                        <button type="button" class="btn btn-default btn-sm" ng-click="followFriend(this.suggestedUser)">
                           <span class="glyphicon glyphicon-plus"></span> Follow
                         </button>
                         </div>
