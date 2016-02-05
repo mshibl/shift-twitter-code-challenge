@@ -28,8 +28,6 @@ shiftSampleApp
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
             .then(function(res){
-                console.log(res)
-                console.log($scope.tweets)
                 $scope.tweets.push(res)
             })
     }
@@ -40,6 +38,13 @@ shiftSampleApp
                 if(response == true){
                     $scope.friendsCount += 1
                 }
+            })
+    }
+
+    $scope.logout = function(){
+        UserService.logout()
+            .then(function(response){
+                $location.path('/');
             })
     }
   });

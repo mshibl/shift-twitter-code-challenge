@@ -1,5 +1,5 @@
 shiftSampleApp
-	.controller('LoginCtrl', function(AuthService, $scope, $sessionStorage, $location, $http,$timeout){
+	.controller('LoginCtrl', function(AuthService, $scope, $localStorage, $location, $http,$timeout){
 		$scope.login = function(formValid,credentials){
 			if(formValid){
 				AuthService.login(credentials)
@@ -16,12 +16,11 @@ shiftSampleApp
 
 		$scope.createAccount = function(formValid,credentials){
 			if(formValid){
-				console.log(credentials)
 				AuthService.createAccount(credentials)
 				 	.then(
 				 		function(response){
-					 		$sessionStorage.userId = response;
-							$location.path('/users/'+$sessionStorage.userId);
+					 		$localStorage.id = response;
+							$location.path('/users/'+$localStorage.id);
 				 		}, function(response){
 				 			$scope.errorMessage = response
 				 		})

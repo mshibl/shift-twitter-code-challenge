@@ -49,7 +49,7 @@ shiftSampleApp
 
 		userService.usersSearch = function(){
 			var deferred = $q.defer();
-			$http.get('/users/7/search/5')
+			$http.get('/users/'+$localStorage.id+'/search/5')
 				.success(function(res){
 					deferred.resolve(res)
 				})
@@ -59,12 +59,22 @@ shiftSampleApp
 		userService.followFriend = function(friendId){
 			var deferred = $q.defer();
 			var params = {friendId: friendId}
-			$http.post('/users/'+$sessionStorage.userId+'/follow',params)
+			$http.post('/users/'+$localStorage.id+'/follow',params)
 				.success(function(){
 					deferred.resolve(true)
 				})
 			return deferred.promise;
-		};		
+		};
+
+		userService.logout = function(){
+			var deferred = $q.defer()
+			$http.delete('/users/'+$localStorage.id+'/logout')
+				.then(function(res){
+					$localStorage.$reset()
+					deferred.resolve(res)
+				})
+			return deferred.promise;
+		};
 
 		return userService;
 	})

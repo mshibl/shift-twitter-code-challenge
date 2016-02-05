@@ -7,12 +7,11 @@ shiftSampleApp
 			$http.post('/login', credentials)
 		      .then(
 		      	function (response) {
-		      		console.log(response)
 		      		$localStorage.token = response.data.token;
 		      		$localStorage.id = response.data.user_id;
 		      		deferred.resolve(response.data.user_id)
 		   		},function (response){
-		   			console.log("factory failed response:" + response)
+		   			console.log('login failed in auth factory')
 		    		deferred.reject(response.data)
 		    	})
 		      return deferred.promise
@@ -23,9 +22,11 @@ shiftSampleApp
 			$http.post('/users',credentials)
 				.then(
 			      function (response) {
-			      		deferred.resolve(response.id)
+			      		$localStorage.token = response.data.token;
+		      			$localStorage.id = response.data.user_id;
+			      		deferred.resolve(response.data.user_id)
 			   		},function (response){
-			   			console.log(response)
+			   			console.log('create account failed in auth factory')
 			    		deferred.reject(response.data)
 			    	})
 			      return deferred.promise

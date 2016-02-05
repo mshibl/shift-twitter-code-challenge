@@ -25,15 +25,22 @@ end
     credentials = JSON.parse(request.body.read)
     user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'])
     user.password = credentials['password']
+    user.token = Faker::Internet.password
     if user.save
+      response = {user_id: user.id, token: user.token}
       content_type :json
-      user.to_json(except: :password_hash)
+      response.to_json
     else
       puts "something went wrong, failed to create new account"
       error = user.errors.full_messages[0]
       status 409
       body error
     end  
+  end
+
+# Logout
+  delete '/users/:id/logout' do
+    User.find(params[:id].to_i).update(token: '')
   end
 
 get '/users' do
