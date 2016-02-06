@@ -1,3 +1,5 @@
+require 'json'
+
 after do
   logger.info "clearing active connection for this thread"
   ActiveRecord::Base.connection.close
@@ -28,7 +30,7 @@ end
 # Create new user account
   post '/users' do
     credentials = JSON.parse(request.body.read)
-    user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'])
+    user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'], image: generate_image())
     user.password = credentials['password']
     user.token = Faker::Internet.password
     if user.save
