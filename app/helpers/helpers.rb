@@ -10,6 +10,11 @@ module HelperMethods
   	image = image_urls["image_urls"]["epic"]
     return image
   end
+
+	def logged_in(id,token)
+		user = User.find(id)
+		user.token == token
+	end
 end
 
 helpers HelperMethods

@@ -1,15 +1,10 @@
 shiftSampleApp
   .controller('UsersCtrl', function (UserService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
+    
+    $scope.currentUser = $localStorage.currentUser;
+    
     var id = $routeParams.id
-    $scope.tweetPermission = (id == $localStorage.id)
-    $scope.userFirstName = $sessionStorage.firstName
-    $scope.userLastName = $sessionStorage.lastName
-    $scope.userFollowersCount = $sessionStorage.followers
-    $scope.userFriendsCount = $sessionStorage.friends
-    UserService.getRandomImage()
-        .then(function(res){
-            $scope.userImage = res
-        })
+    $scope.tweetPermission = (id == $scope.currentUser.id)
 
     UserService.getUserData(id)
         .then(function(userData){

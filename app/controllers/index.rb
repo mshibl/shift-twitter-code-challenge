@@ -1,5 +1,8 @@
 require 'json'
 
+before do
+end
+
 after do
   logger.info "clearing active connection for this thread"
   ActiveRecord::Base.connection.close
@@ -9,23 +12,6 @@ end
 get '/' do
   erb :index
 end
-
-# User Login
-  post '/login' do
-    credentials = JSON.parse(request.body.read)
-    user = User.find_by_email(credentials['email'].downcase)
-    if !user.nil? && user.password == credentials['password']
-      user.token = Faker::Internet.password
-      user.save
-      response = {followers_count: user.followers.count, friends_count: user.friends.count, first_name: user.first_name, last_name: user.last_name, user_id: user.id, token: user.token}
-      content_type :json
-      response.to_json
-    else
-      puts 'something went wrong, user failed to sign in'
-      status 401
-      body 'Either email or password incorrect'
-    end
-  end
 
 # Create new user account
   post '/users' do
@@ -43,11 +29,6 @@ end
       status 409
       body error
     end  
-  end
-
-# Logout
-  delete '/users/:id/logout' do
-    User.find(params[:id].to_i).update(token: '')
   end
 
 get '/users' do
@@ -75,7 +56,10 @@ end
 
 get '/users/:id' do
   user = User.find(params[:id].to_i)
-  if !!user.logged_in(params['requesterId'],params['token'])
+  puts "********************"
+  p params
+  puts "********************"
+  if !!logged_in(params['requesterId'],params['token'])
     user_data = {
       first_name: user.first_name,
       last_name: user.last_name,

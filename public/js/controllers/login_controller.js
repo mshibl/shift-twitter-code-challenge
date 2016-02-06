@@ -4,8 +4,8 @@ shiftSampleApp
 			if(formValid){
 				AuthService.login(credentials)
 				 	.then(
-				 		function(response){
-							$location.path('/users/'+response.user_id);
+				 		function(userId){
+							$location.path('/users/'+userId);
 				 		}, function(response){
 				 			$scope.errorMessage = response
 				 		})

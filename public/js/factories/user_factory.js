@@ -4,7 +4,7 @@ shiftSampleApp
 
 		userService.getUserData = function(id){
 			var deferred = $q.defer();
-			$http.get('/users/'+id, {params: {'requesterId': $localStorage.id,'token': $localStorage.token}})
+			$http.get('/users/'+id, {params: {'requesterId': $localStorage.currentUser.id,'token': $localStorage.currentUser.token}})
 				.then(
 					function(response){
 						deferred.resolve(response.data)
@@ -50,7 +50,7 @@ shiftSampleApp
 
 		userService.usersSearch = function(){
 			var deferred = $q.defer();
-			$http.get('/users/'+$localStorage.id+'/search/5')
+			$http.get('/users/'+$localStorage.currentUser.id+'/search/5')
 				.success(function(res){
 					deferred.resolve(res)
 				})
