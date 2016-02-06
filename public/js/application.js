@@ -1,6 +1,10 @@
 var shiftSampleApp = angular.module('shiftSampleApp', ['ngMessages','ngRoute','routeStyles','ngStorage']);
 
-shiftSampleApp.config(function($routeProvider, $locationProvider){
+shiftSampleApp
+  .config(function($httpProvider, $routeProvider, $locationProvider){
+    
+    $httpProvider.interceptors.push('HttpInterceptor')      
+    
     $routeProvider
       .when('/',{
         templateUrl: '/js/templates/login.html',
@@ -17,6 +21,7 @@ shiftSampleApp.config(function($routeProvider, $locationProvider){
         redirectTo: '/'
       });
 
+      
       // use the HTML5 History API
       // $locationProvider.html5Mode(true);
   });
