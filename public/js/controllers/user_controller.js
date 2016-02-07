@@ -1,18 +1,17 @@
 shiftSampleApp
-  .controller('UsersCtrl', function (UserService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
-    
-    $scope.currentUser = $localStorage.currentUser;
+  .controller('UsersCtrl', function (UserService, AuthService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
     
     var id = $routeParams.id
-    $scope.tweetPermission = (id == $scope.currentUser.id)
+    if($localStorage.currentUser){
+        $scope.currentUser = $localStorage.currentUser;
+        $scope.tweetPermission = (id == $scope.currentUser.id)
+    }
 
     UserService.getUserData(id)
         .then(function(userData){
-                $scope.firstName = userData.first_name
-                $scope.lastName = userData.last_name
-                $scope.email = userData.email
-                $scope.followersCount = userData.followers_count
-                $scope.friendsCount = userData.friends_count
+                console.log('user data loaded')
+                console.log(userData)
+                $scope.showUser = userData
             })
 
     UserService.getUserTweets(id)
@@ -42,24 +41,23 @@ shiftSampleApp
     $scope.followFriend = function(friend){
         UserService.followFriend(friend.id)
             .then(function(response){
-                if(response == true){
-                    $scope.friendsCount += 1
-                    $scope.suggestedUsers
+                $scope.showUser.friends.push(response)
+                //     $scope.suggestedUsers
                     var index = $scope.suggestedUsers.indexOf(friend);
                     $scope.suggestedUsers.splice(index, 1);
-                }
+                // }
             })
     }
 
     $scope.logout = function(){
-        UserService.logout()
+        AuthService.logout()
             .then(function(response){
                 $location.path('/');
             })
     }
 
     $scope.goHome = function(){
-        $location.path('/users/'+$localStorage.id);
+        $location.path('/users/'+$localStorage.currentUser.id);
     }
 
   });

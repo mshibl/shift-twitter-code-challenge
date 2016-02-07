@@ -15,6 +15,21 @@ module HelperMethods
 		user = User.find(id)
 		user.token == token
 	end
+
+  def get_user_suggestions(id,count)
+    user = User.find(id)
+    start = 1
+    finish = count
+    results = []
+    until results.count >= count do
+      candidates = User.where(id: (start..finish))
+      results << candidates.select{|candidate| (user.friends.include?(candidate) == false) && (candidate != user)}
+      results.flatten!
+      start = finish + 1
+      finish = start + count
+    end
+    return results
+  end
 end
 
 helpers HelperMethods

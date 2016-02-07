@@ -18,9 +18,8 @@ shiftSampleApp
 			if(formValid){
 				AuthService.createAccount(credentials)
 				 	.then(
-				 		function(response){
-					 		$localStorage.id = response;
-							$location.path('/users/'+$localStorage.id);
+				 		function(userId){
+							$location.path('/users/'+userId);
 				 		}, function(response){
 				 			$scope.errorMessage = response
 				 		})

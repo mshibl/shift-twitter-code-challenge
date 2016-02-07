@@ -45,14 +45,14 @@
                                     <img src="/img/rotating_card_thumb.png"/>
                                 </div>
                                 <div class="user">
-                                    <img class="img-circle" ng-src="{{targetUserImage || currentUser.image}}"/>
+                                    <img class="img-circle" ng-src="{{showUser.image || currentUser.image}}"/>
                                 </div>
                                 <div class="content">
                                     <div class="main">
-                                        <h3 class="name">{{firstName}} {{lastName}}</h3>
-                                        <p class="email">{{email}}</p>
-                                        <h5><span class="glyphicon glyphicon-user"></span><strong>    Friends: </strong>{{friendsCount}}</h5>
-                                        <h5><span class="glyphicon glyphicon-hand-right"></span><strong>    Followers: </strong>{{followersCount}}</h5>
+                                        <h3 class="name">{{showUser.first_name}} {{showUser.last_name}}</h3>
+                                        <p class="email">{{showUser.email}}</p>
+                                        <h5><span class="glyphicon glyphicon-user"></span><strong>    Friends: </strong>{{showUser.friends.length}}</h5>
+                                        <h5><span class="glyphicon glyphicon-hand-right"></span><strong>    Followers: </strong>{{showUser.followers.length}}</h5>
                                     </div>
                                 </div>
                         </div> <!-- end card -->

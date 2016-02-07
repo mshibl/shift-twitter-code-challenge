@@ -5,13 +5,12 @@
     if !user.nil? && user.password == credentials['password']
       user.token = Faker::Internet.password
       user.save
-      followers_count = user.followers
       content_type :json
       user.to_json(except: [:password_hash, :created_at, :updated_at], include: [:followers,:friends])
     else
       puts 'something went wrong, user failed to sign in'
-      status 401
       body 'Either email or password incorrect'
+      status 401
     end
   end
 

@@ -2,7 +2,7 @@ var shiftSampleApp = angular.module('shiftSampleApp', ['ngMessages','ngRoute','r
 
 shiftSampleApp
   .config(function($httpProvider, $routeProvider, $locationProvider){
-    
+
     $httpProvider.interceptors.push('HttpInterceptor')      
     
     $routeProvider
@@ -26,3 +26,11 @@ shiftSampleApp
       // $locationProvider.html5Mode(true);
   });
 
+
+// shiftSampleApp
+//   .run(function($rootScope, $localStorage){
+//       var scope = $rootScope
+//       scope.currentUserId = $localStorage.currentUser.id
+
+//       scope.$watch(function)
+//   })

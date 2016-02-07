@@ -4,13 +4,12 @@ shiftSampleApp
 
 		userService.getUserData = function(id){
 			var deferred = $q.defer();
-			$http.get('/users/'+id, {params: {'requesterId': $localStorage.currentUser.id,'token': $localStorage.currentUser.token}})
+			$http.get('/users/'+id)
 				.then(
 					function(response){
 						deferred.resolve(response.data)
 					}, function(response){
 						console.log('failed while getting user data')
-						$location.path('/');
 					})
 				return deferred.promise
 			};
@@ -61,19 +60,8 @@ shiftSampleApp
 			var deferred = $q.defer();
 			var params = {friendId: friendId}
 			$http.post('/users/'+$localStorage.id+'/follow',params)
-				.success(function(){
-					deferred.resolve(true)
-				})
-			return deferred.promise;
-		};
-
-		userService.logout = function(){
-			var deferred = $q.defer()
-			$http.delete('/users/'+$localStorage.id+'/logout')
-				.then(function(res){
-					$localStorage.$reset()
-					$sessionStorage.$reset()
-					deferred.resolve(res)
+				.success(function(response){
+					deferred.resolve(response)
 				})
 			return deferred.promise;
 		};

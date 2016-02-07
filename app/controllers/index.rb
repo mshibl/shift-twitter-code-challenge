@@ -1,6 +1,13 @@
 require 'json'
 
-before do
+# Run before to test user credentials
+before '/users/*' do
+    begin
+      user = User.find(params['id'])
+      redirect to('/login') if !logged_in(params['id'],params['token'])
+    rescue
+      redirect to('/login')
+    end
 end
 
 after do
@@ -8,73 +15,48 @@ after do
   ActiveRecord::Base.connection.close
 end
 
-# single view and route that you will layer angular on top of
 get '/' do
   erb :index
 end
 
 # Create new user account
-  post '/users' do
-    credentials = JSON.parse(request.body.read)
-    user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'], image: generate_image())
-    user.password = credentials['password']
-    user.token = Faker::Internet.password
-    if user.save
-      response = {user_id: user.id, token: user.token}
-      content_type :json
-      response.to_json
-    else
-      puts "something went wrong, failed to create new account"
-      error = user.errors.full_messages[0]
-      status 409
-      body error
-    end  
-  end
-
-get '/users' do
-  users = User.all
-  content_type :json
-  users.to_json
+post '/users' do
+  credentials = JSON.parse(request.body.read)
+  user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'], image: generate_image())
+  user.password = credentials['password']
+  user.token = Faker::Internet.password
+  if user.save
+    content_type :json
+    user.to_json(except: [:password_hash, :created_at, :updated_at], include: [:followers,:friends])
+  else
+    puts "something went wrong, failed to create new account"
+    error = user.errors.full_messages[0]
+    status 409
+    body error
+  end  
 end
 
-get '/users/:id/search/:count' do
-  user = User.find(params[:id].to_i)
-  count = params[:count].to_i
-  start = 1
-  finish = count
-  results = []
-  until results.count >= count do
-    candidates = User.where(id: (start..finish))
-    results << candidates.select{|candidate| (user.friends.include?(candidate) == false) && (candidate != user)}
-    results.flatten!
-    start = finish + 1
-    finish = start + count
-  end
-  content_type :json
-  results.to_json
-end
-
+# Get user data
 get '/users/:id' do
   user = User.find(params[:id].to_i)
-  puts "********************"
-  p params
-  puts "********************"
-  if !!logged_in(params['requesterId'],params['token'])
-    user_data = {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      id: user.id,
-      followers_count: user.followers.count,
-      friends_count: user.friends.count
-    }
-    content_type :json
-    user_data.to_json
-  else  
-    status 401
-  end
+  content_type :json
+  user.to_json(except: [:token, :password_hash, :created_at, :updated_at], include: [:followers,:friends])
 end
 
+# get '/users' do
+#   users = User.all
+#   content_type :json
+#   users.to_json
+# end
+
+# Get user follow suggestions
+get '/users/:id/search/:count' do
+  results = get_user_suggestions(params[:id].to_i,params[:count].to_i)
+  content_type :json
+  results.to_json 
+end
+
+# Get user tweets
 get '/users/:id/tweets' do
   user = User.find(params[:id].to_i)
   tweets = user.tweets
@@ -82,6 +64,7 @@ get '/users/:id/tweets' do
   tweets.to_json
 end    
 
+# Post a tweet
 post '/users/:id/tweets' do
   tweet = JSON.parse(request.body.read)
   new_tweet = Tweet.new(user_id: params[:id].to_i, text: tweet['text'])
@@ -94,11 +77,15 @@ post '/users/:id/tweets' do
   end
 end
 
+# Follow a new user
 post '/users/:id/follow' do
-  friend_id = JSON.parse(request.body.read)
-  relationship = Relationship.new(friend_id: friend_id['friendId'], follower_id: params[:id].to_i)
+  friend_id = JSON.parse(request.body.read)['friendId'].to_i
+  relationship = Relationship.new(friend_id: friend_id, follower_id: params[:id].to_i)
+  user = User.find(friend_id)
   if relationship.save
     puts "relationship created"
+    content_type :json
+    user.to_json
   else
     puts "something went wrong"
   end 
