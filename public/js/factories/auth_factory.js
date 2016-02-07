@@ -2,29 +2,6 @@ shiftSampleApp
 	.factory('AuthService', function(UserService,$http,$sessionStorage,$localStorage,$q){
 		var authService = {};
 
-		// authService.isLoggedIn = function(){
-		// 	credentials =  $localStorage.currentUser ? {id: $localStorage.currentUser.id, token: $localStorage.currentUser.token} : {id: "", token: ""}
-		// 	// credentials = {id: $localStorage.currentUser.id, token: $localStorage.currentUser.token}
-		// 	console.log(credentials)
-		// 	// credentials = {id: 1}
-		// 	// console.log(credentials)
-		// 	var deferred = $q.defer();
-		// 	$http.post('/session_status',credentials)
-		// 		.then(
-		// 			function(){
-		// 		// 		// console.log('yes')
-		// 		// 		 true
-		// 				deferred.resolve()
-
-		// 			}, function(){
-		// 		// 		// console.log('no')
-		// 		// 		 false
-		// 				deferred.reject()
-		// 			})
-		// 		// console.log(deferred.promise)
-		// 		return deferred.promise
-		// }
-
 		authService.login = function(credentials){
 			var deferred = $q.defer();
 			$http.post('/login', credentials)

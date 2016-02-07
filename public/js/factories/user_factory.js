@@ -11,8 +11,8 @@ shiftSampleApp
 					}, function(response){
 						console.log('failed while getting user data')
 					})
-				return deferred.promise
-			};
+			return deferred.promise
+		};
 
 		userService.getUserTweets = function(id){
 			var deferred = $q.defer();
@@ -22,35 +22,26 @@ shiftSampleApp
 						deferred.resolve(response)
 					}, function(response){
 						console.log('failed while getting tweets')
-						$location.path('/');
 					})
-				return deferred.promise
-			};
+			return deferred.promise
+		};
 
 		userService.postTweet = function(tweet){
 			var params = {text: tweet}
 			var deferred = $q.defer();
-			$http.post('/users/'+$localStorage.id+'/tweets',params)
+			$http.post('/users/'+$localStorage.currentUser.id+'/tweets',params)
 				.then(
 					function(response){
 						deferred.resolve(response.data)
 					})
 			return deferred.promise
-			};
-
-		userService.getRandomImage = function(){
-			var deferred = $q.defer();
-			$http.get('https://randomuser.me/api/')
-				.success(function(response){
-					deferred.resolve(response.results[0].user.picture.medium)
-				})
-			return deferred.promise;
 		};
 
-		userService.usersSearch = function(){
+		userService.getSuggestions = function(){
 			var deferred = $q.defer();
-			$http.get('/users/'+$localStorage.currentUser.id+'/search/5')
+			$http.get('/users/'+$localStorage.currentUser.id+'/search')
 				.success(function(res){
+					// console.log(res)
 					deferred.resolve(res)
 				})
 			return deferred.promise;
@@ -58,10 +49,12 @@ shiftSampleApp
 
 		userService.followFriend = function(friendId){
 			var deferred = $q.defer();
-			var params = {friendId: friendId}
-			$http.post('/users/'+$localStorage.id+'/follow',params)
-				.success(function(response){
-					deferred.resolve(response)
+			var params = {id: friendId}
+			$http.post('/users/'+$localStorage.currentUser.id+'/follow',params)
+				.then(function(){
+					deferred.resolve()
+				}, function(){
+					deferred.reject()
 				})
 			return deferred.promise;
 		};

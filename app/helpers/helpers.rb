@@ -28,7 +28,29 @@ module HelperMethods
       start = finish + 1
       finish = start + count
     end
+      results.map!{|candidate| {id: candidate.id, first_name: candidate.first_name, last_name: candidate.last_name, image: candidate.image}}
     return results
+  end
+
+  def get_user_data(id)
+    user = User.find(id)
+    user_data = {
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      followers_count: user.followers.count,
+      friends_count: user.friends.count,
+      image: user.image
+    }
+    user_data.to_json
+  end
+
+  def create_new_account(user_data)
+    credentials = JSON.parse(user_data)
+    user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'], image: generate_image())
+    user.password = credentials['password']
+    user.token = Faker::Internet.password
+    return user
   end
 end
 

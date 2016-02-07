@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="col-md-3 col-md-offset-4 logout home">
-                <button type="button" class="btn btn-default btn-sm" ng-click="goHome()">
+                <button type="button" class="btn btn-default btn-sm" ng-click="showUserProfile(currentUser.id)">
                   <span class="glyphicon glyphicon-home"></span> Home
                 </button>
                 <button type="button" class="btn btn-default btn-sm" ng-click="logout()">
@@ -45,14 +45,14 @@
                                     <img src="/img/rotating_card_thumb.png"/>
                                 </div>
                                 <div class="user">
-                                    <img class="img-circle" ng-src="{{showUser.image || currentUser.image}}"/>
+                                    <img class="img-circle" ng-src="{{targetUser.image}}"/>
                                 </div>
                                 <div class="content">
                                     <div class="main">
-                                        <h3 class="name">{{showUser.first_name}} {{showUser.last_name}}</h3>
-                                        <p class="email">{{showUser.email}}</p>
-                                        <h5><span class="glyphicon glyphicon-user"></span><strong>    Friends: </strong>{{showUser.friends.length}}</h5>
-                                        <h5><span class="glyphicon glyphicon-hand-right"></span><strong>    Followers: </strong>{{showUser.followers.length}}</h5>
+                                        <h3 class="name">{{targetUser.first_name}} {{targetUser.last_name}}</h3>
+                                        <p class="email">{{targetUser.email}}</p>
+                                        <h5><span class="glyphicon glyphicon-user"></span><strong>    Friends: </strong>{{targetUser.friends_count}}</h5>
+                                        <h5><span class="glyphicon glyphicon-hand-right"></span><strong>    Followers: </strong>{{targetUser.followers_count}}</h5>
                                     </div>
                                 </div>
                         </div> <!-- end card -->
@@ -63,7 +63,7 @@
                     <div class="thumbnail" ng-if="tweetPermission">
                         <label>Post a tweet</label>
                         <form name="tweetForm" novalidate>
-                            <textarea class="form-control" rows="3" id="comment" name="tweet" ng-model="newTweet" form="tweetForm">Enter text here...</textarea>
+                            <textarea ng-model="$parent.newTweet" rows="3" class="form-control" id="comment" name="tweet" form="tweetForm"></textarea>
                             <div class="row post-tweet">
                                 <div class="col-md-2 col-md-offset-10">
                                     <input type="submit" class="btn btn-default" ng-click="postTweet(newTweet)" value="Tweet" />
@@ -76,7 +76,7 @@
                     <div class="thumbnail" ng-repeat="tweet in tweets | orderBy: '-created_at'"> <!-- Tweet Container -->
                         <div class="caption-full">
                             <h6 class="pull-right">{{tweet.created_at | date:'MM/dd/yyyy'}}</h6>
-                            <h6><a href="#">{{firstName}} {{lastName}}</a></h6>
+                            <h6>{{targetUser.first_name}} {{targetUser.last_name}}</h6>
                             <p>{{tweet.text}}</p>
                         </div>
                         <div class="ratings">
@@ -97,7 +97,7 @@
                         <h4>Follow Suggestions</h4>
                         <div class="user-suggestions">
                             <div class="thumbnail" ng-repeat="suggestedUser in suggestedUsers">
-                                <h5><a ng-href="/#/users/{{this.suggestedUser.id}}">{{suggestedUser.first_name}} {{suggestedUser.last_name}}</a></h5>
+                                <h5><a ng-click="showUserProfile(this.suggestedUser.id)" href="">{{suggestedUser.first_name}} {{suggestedUser.last_name}}</a></h5>
                             <button type="button" class="btn btn-default btn-sm" ng-click="followFriend(this.suggestedUser)">
                               <span class="glyphicon glyphicon-plus"></span> Follow
                             </button>

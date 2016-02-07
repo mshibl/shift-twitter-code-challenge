@@ -19,12 +19,11 @@ get '/' do
   erb :index
 end
 
+#######################################
+
 # Create new user account
 post '/users' do
-  credentials = JSON.parse(request.body.read)
-  user = User.new(first_name: credentials['firstName'], last_name: credentials['lastName'], email: credentials['email'], image: generate_image())
-  user.password = credentials['password']
-  user.token = Faker::Internet.password
+  user = create_new_account(request.body.read)
   if user.save
     content_type :json
     user.to_json(except: [:password_hash, :created_at, :updated_at], include: [:followers,:friends])
@@ -38,20 +37,16 @@ end
 
 # Get user data
 get '/users/:id' do
-  user = User.find(params[:id].to_i)
+  response = get_user_data(params[:id])
   content_type :json
-  user.to_json(except: [:token, :password_hash, :created_at, :updated_at], include: [:followers,:friends])
+  response
 end
 
-# get '/users' do
-#   users = User.all
-#   content_type :json
-#   users.to_json
-# end
 
 # Get user follow suggestions
-get '/users/:id/search/:count' do
-  results = get_user_suggestions(params[:id].to_i,params[:count].to_i)
+get '/users/:id/search' do
+  min_suggestions = 5
+  results = get_user_suggestions(params[:id].to_i,min_suggestions)
   content_type :json
   results.to_json 
 end
@@ -79,14 +74,20 @@ end
 
 # Follow a new user
 post '/users/:id/follow' do
-  friend_id = JSON.parse(request.body.read)['friendId'].to_i
-  relationship = Relationship.new(friend_id: friend_id, follower_id: params[:id].to_i)
-  user = User.find(friend_id)
+  id = JSON.parse(request.body.read)['id'].to_i
+  relationship = Relationship.new(friend_id: id, follower_id: params[:id].to_i)
+  user = User.find(id)
   if relationship.save
     puts "relationship created"
-    content_type :json
-    user.to_json
   else
     puts "something went wrong"
+    400
   end 
 end
+
+
+# get '/users' do
+#   users = User.all
+#   content_type :json
+#   users.to_json
+# end

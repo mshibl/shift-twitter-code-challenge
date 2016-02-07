@@ -1,63 +1,63 @@
 shiftSampleApp
   .controller('UsersCtrl', function (UserService, AuthService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
     
-    var id = $routeParams.id
-    if($localStorage.currentUser){
-        $scope.currentUser = $localStorage.currentUser;
-        $scope.tweetPermission = (id == $scope.currentUser.id)
-    }
+    if(!$scope.currentUser){$scope.currentUser = $localStorage.currentUser;}
 
-    UserService.getUserData(id)
+    $scope.getUserData = function(id){
+      UserService.getUserData(id)
         .then(function(userData){
-                console.log('user data loaded')
-                console.log(userData)
-                $scope.showUser = userData
+                $scope.targetUser = userData
+            })  
+        } 
+
+    $scope.getUserTweets = function(id){
+      UserService.getUserTweets(id)
+        .then(function(response){
+                $scope.tweets = response.data
+            })  
+        } 
+
+    $scope.getSuggestions = function(){
+        UserService.getSuggestions()
+            .then(function(response){
+                $scope.suggestedUsers = response
             })
+        }
 
-    UserService.getUserTweets(id)
-        .then(function(response){
-            $scope.tweets = response.data
-        })
-
-    if(!$scope.tweetPermission){
-        UserService.getRandomImage()
-        .then(function(response){
-            $scope.targetUserImage = response
-        })
+    $scope.showUserProfile = function(id){
+        $scope.tweetPermission = (id == $scope.currentUser.id)
+        $scope.getUserData(id)
+        $scope.getUserTweets(id)
     }
 
-    UserService.usersSearch()
-        .then(function(response){
-            $scope.suggestedUsers = response
-        })
+    // First Run
+    $scope.showUserProfile($scope.currentUser.id)
+    $scope.getSuggestions()
 
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
             .then(function(res){
+                $scope.newTweet = null
                 $scope.tweets.push(res)
             })
-    }
+        }
 
     $scope.followFriend = function(friend){
         UserService.followFriend(friend.id)
-            .then(function(response){
-                $scope.showUser.friends.push(response)
-                //     $scope.suggestedUsers
-                    var index = $scope.suggestedUsers.indexOf(friend);
-                    $scope.suggestedUsers.splice(index, 1);
-                // }
+            .then(function(){
+                if($scope.tweetPermission){$scope.targetUser.friends_count += 1}
+                var index = $scope.suggestedUsers.indexOf(friend);
+                $scope.suggestedUsers.splice(index, 1);
+            }, function(){
+                console.log('Follow event was unsuccessful')
             })
-    }
+        }
 
     $scope.logout = function(){
         AuthService.logout()
             .then(function(response){
                 $location.path('/');
             })
-    }
-
-    $scope.goHome = function(){
-        $location.path('/users/'+$localStorage.currentUser.id);
-    }
+        }
 
   });
