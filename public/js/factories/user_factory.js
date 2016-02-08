@@ -19,7 +19,7 @@ shiftSampleApp
 		    $http.get('/users/'+id+'/tweets')
 		    	.then(
 					function(response){
-						deferred.resolve(response)
+						deferred.resolve(response.data)
 					}, function(response){
 						console.log('failed while getting tweets')
 					})

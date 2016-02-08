@@ -2,6 +2,7 @@ shiftSampleApp
   .controller('UsersCtrl', function (UserService, AuthService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
 
     if(!$scope.currentUser){$scope.currentUser = $localStorage.currentUser;}
+    $scope.profileView = true
 
     $scope.getUserData = function(id){
       UserService.getUserData(id)
@@ -13,24 +14,28 @@ shiftSampleApp
     $scope.getUserTweets = function(id){
       UserService.getUserTweets(id)
         .then(function(response){
-                $scope.tweets = response.data
+                $scope.tweets = response
             })  
         } 
 
-    $scope.tweetsTimeline = function(){
+    $scope.showTweetsTimeline = function(){
+        $scope.profileView = false
         UserService.getRelationshipsList()
             .then(function(list){
+                $scope.tweets = []
                 friends = list['friends_list']
                 angular.forEach(friends, function(friend){
                     UserService.getUserTweets(friend.id)
                         .then(function(response){
-                            // console.log(response.data)
+                            $scope.tweets = $.map( [$scope.tweets,response], function(n){
+                               return n;
+                            });
                         })
+                    })
                 })
-            })
-    }
+            }
 
-    $scope.tweetsTimeline()
+    // $scope.showTweetsTimeline()
 
     $scope.getSuggestions = function(){
         UserService.getSuggestions()

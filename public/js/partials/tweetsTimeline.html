@@ -15,7 +15,7 @@
     <div class="thumbnail" ng-repeat="tweet in tweets | orderBy: '-created_at'"> <!-- Tweet Container -->
         <div class="caption-full">
             <h6 class="pull-right">{{tweet.created_at | date:'MM/dd/yyyy'}}</h6>
-            <h6>{{targetUser.first_name}} {{targetUser.last_name}}</h6>
+            <h6>{{tweet.user.first_name}} {{tweet.user.last_name}}</h6>
             <p>{{tweet.text}}</p>
         </div>
         <div class="ratings">
