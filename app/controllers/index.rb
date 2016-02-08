@@ -51,7 +51,7 @@ get '/users/:id/tweets' do
   user = User.find(params[:id].to_i)
   tweets = user.tweets
   content_type :json
-  tweets.to_json(:include => { :user => {only: [:first_name, :last_name] } })
+  tweets.to_json(:include => { :user => {only: [:id, :first_name, :last_name, :image] } })
 end    
 
 # Post a tweet

@@ -2,7 +2,6 @@ shiftSampleApp
   .controller('UsersCtrl', function (UserService, AuthService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
 
     if(!$scope.currentUser){$scope.currentUser = $localStorage.currentUser;}
-    $scope.profileView = true
 
     $scope.getUserData = function(id){
       UserService.getUserData(id)
@@ -20,6 +19,7 @@ shiftSampleApp
 
     $scope.showTweetsTimeline = function(){
         $scope.profileView = false
+        $scope.tweetPermission = true
         UserService.getRelationshipsList()
             .then(function(list){
                 $scope.tweets = []
@@ -53,6 +53,7 @@ shiftSampleApp
     // First Run
     $scope.showUserProfile($scope.currentUser.id)
     $scope.getSuggestions()
+    $scope.homeView = false
 
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)

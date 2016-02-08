@@ -1,11 +1,17 @@
 <div class="col-md-3">
     <h4>Follow Suggestions</h4>
-    <div class="user-suggestions">
-        <div class="thumbnail" ng-repeat="suggestedUser in suggestedUsers">
-            <h5><a ng-click="showUserProfile(this.suggestedUser.id)" href="">{{suggestedUser.first_name}} {{suggestedUser.last_name}}</a></h5>
-        <button type="button" class="btn btn-default btn-sm" ng-click="followFriend(this.suggestedUser)">
-          <span class="glyphicon glyphicon-plus"></span> Follow
-        </button>
-        </div>
-    </div>
+	<!-- <div class="row"> -->
+	    <div class="row">
+	        <div class="user-suggestions thumbnail" ng-repeat="suggestedUser in suggestedUsers">
+		    	<div class="col-xs-8">
+		            <h5><a ng-click="showUserProfile(this.suggestedUser.id)" href="">{{suggestedUser.first_name}} {{suggestedUser.last_name}}</a></h5>
+	            </div>
+	            <div class="col-xs-4">
+			        <button type="button" class="btn btn-default btn-sm" ng-click="followFriend(this.suggestedUser)">
+			          <span class="glyphicon glyphicon-plus"></span> Follow
+			        </button>
+		        </div>
+	        </div>
+	    </div>
+	<!-- </div> -->
 </div>  
