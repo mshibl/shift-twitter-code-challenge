@@ -4,9 +4,9 @@ require 'json'
 before '/users/*' do
     begin
       user = User.find(params['id'])
-      redirect to('/login') if !logged_in(params['id'],params['token'])
+      redirect to('/') if !logged_in(params['id'],params['token'])
     rescue
-      redirect to('/login')
+      redirect to('/')
     end
 end
 
@@ -21,20 +21,6 @@ end
 
 #######################################
 
-# Create new user account
-post '/users' do
-  user = create_new_account(request.body.read)
-  if user.save
-    content_type :json
-    user.to_json(except: [:password_hash, :created_at, :updated_at], include: [:followers,:friends])
-  else
-    puts "something went wrong, failed to create new account"
-    error = user.errors.full_messages[0]
-    status 409
-    body error
-  end  
-end
-
 # Get user data
 get '/users/:id' do
   response = get_user_data(params[:id])
@@ -42,6 +28,15 @@ get '/users/:id' do
   response
 end
 
+# Get full detailed list of friends and followers
+get '/users/:id/list' do
+  user = User.find(params[:id].to_i)
+  friends = user.friends.collect{|friend| {id: friend.id, first_name: friend.first_name, last_name: friend.last_name, image: friend.image, email: friend.email}}
+  followers = user.followers.collect{|follower| {id: follower.id, first_name: follower.first_name, last_name: follower.last_name, image: follower.image, email: follower.email}}
+  list = {friends_list: friends, followers_list: followers}
+  content_type :json
+  list.to_json
+end
 
 # Get user follow suggestions
 get '/users/:id/search' do
@@ -74,6 +69,7 @@ end
 
 # Follow a new user
 post '/users/:id/follow' do
+  p 'we are here'
   id = JSON.parse(request.body.read)['id'].to_i
   relationship = Relationship.new(friend_id: id, follower_id: params[:id].to_i)
   user = User.find(id)
@@ -84,7 +80,6 @@ post '/users/:id/follow' do
     400
   end 
 end
-
 
 # get '/users' do
 #   users = User.all

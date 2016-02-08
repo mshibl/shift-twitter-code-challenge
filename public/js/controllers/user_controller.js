@@ -1,6 +1,6 @@
 shiftSampleApp
   .controller('UsersCtrl', function (UserService, AuthService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
-    
+
     if(!$scope.currentUser){$scope.currentUser = $localStorage.currentUser;}
 
     $scope.getUserData = function(id){
@@ -52,6 +52,15 @@ shiftSampleApp
                 console.log('Follow event was unsuccessful')
             })
         }
+
+    $scope.getRelationshipsList = function(){
+        UserService.getRelationshipsList()
+            // .then(function(response){
+            //     // console.log(response)
+            // })
+        }
+
+    // $scope.getRelationshipsList()
 
     $scope.logout = function(){
         AuthService.logout()

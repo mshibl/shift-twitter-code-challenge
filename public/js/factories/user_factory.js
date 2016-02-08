@@ -59,5 +59,14 @@ shiftSampleApp
 			return deferred.promise;
 		};
 
+		userService.getRelationshipsList = function(){
+			var deferred = $q.defer();
+			$http.get('/users/'+$localStorage.currentUser.id+'/list')
+				.then(function(response){
+					deferred.resolve(response.data)
+				})
+			return deferred.promise;
+		}
+
 		return userService;
 	})
