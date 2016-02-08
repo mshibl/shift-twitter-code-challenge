@@ -17,6 +17,21 @@ shiftSampleApp
             })  
         } 
 
+    $scope.tweetsTimeline = function(){
+        UserService.getRelationshipsList()
+            .then(function(list){
+                friends = list['friends_list']
+                angular.forEach(friends, function(friend){
+                    UserService.getUserTweets(friend.id)
+                        .then(function(response){
+                            // console.log(response.data)
+                        })
+                })
+            })
+    }
+
+    $scope.tweetsTimeline()
+
     $scope.getSuggestions = function(){
         UserService.getSuggestions()
             .then(function(response){
@@ -55,9 +70,9 @@ shiftSampleApp
 
     $scope.getRelationshipsList = function(){
         UserService.getRelationshipsList()
-            // .then(function(response){
+            .then(function(response){
             //     // console.log(response)
-            // })
+            })
         }
 
     // $scope.getRelationshipsList()

@@ -1,0 +1,33 @@
+<div class="col-md-6">
+    <div class="thumbnail" ng-if="tweetPermission">
+        <label>Post a tweet</label>
+        <form name="tweetForm" novalidate>
+            <textarea ng-model="$parent.newTweet" rows="3" class="form-control" id="comment" name="tweet" form="tweetForm"></textarea>
+            <div class="row post-tweet">
+                <div class="col-md-2 col-md-offset-10">
+                    <input type="submit" class="btn btn-default" ng-click="postTweet(newTweet)" value="Tweet" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <h4>Tweets</h4>
+    <div class="thumbnail" ng-repeat="tweet in tweets | orderBy: '-created_at'"> <!-- Tweet Container -->
+        <div class="caption-full">
+            <h6 class="pull-right">{{tweet.created_at | date:'MM/dd/yyyy'}}</h6>
+            <h6>{{targetUser.first_name}} {{targetUser.last_name}}</h6>
+            <p>{{tweet.text}}</p>
+        </div>
+        <div class="ratings">
+            <p class="pull-right">3 replies</p>
+            <p>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                4.0 stars
+            </p>
+        </div>
+    </div>
+</div>
