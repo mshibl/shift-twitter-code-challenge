@@ -61,7 +61,7 @@ post '/users/:id/tweets' do
   if new_tweet.save
     puts 'new tweet added'
     content_type :json
-    new_tweet.to_json
+    new_tweet.to_json(:include => { :user => {only: [:id, :first_name, :last_name, :image] } })
   else
     400
   end

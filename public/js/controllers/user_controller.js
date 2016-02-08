@@ -22,7 +22,6 @@ shiftSampleApp
         $scope.tweetPermission = true
         UserService.getRelationshipsList()
             .then(function(list){
-                $scope.tweets = []
                 friends = list['friends_list']
                 angular.forEach(friends, function(friend){
                     UserService.getUserTweets(friend.id)
@@ -58,7 +57,7 @@ shiftSampleApp
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
             .then(function(res){
-                $scope.newTweet = null
+                $('#newTweet').val('')
                 $scope.tweets.push(res)
             })
         }

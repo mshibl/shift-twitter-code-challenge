@@ -41,7 +41,6 @@ shiftSampleApp
 			var deferred = $q.defer();
 			$http.get('/users/'+$localStorage.currentUser.id+'/search')
 				.success(function(res){
-					// console.log(res)
 					deferred.resolve(res)
 				})
 			return deferred.promise;
