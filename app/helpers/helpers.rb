@@ -11,10 +11,9 @@ module HelperMethods
     return image
   end
 
-	def logged_in(id,token)
-		user = User.find(id)
-		user.token == token
-	end
+  def logged_in?(user, token)
+    user.token == token
+  end
 
   def get_user_suggestions(id,count)
     user = User.find(id)

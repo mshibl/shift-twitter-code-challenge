@@ -2,12 +2,8 @@ require 'json'
 
 # Run before to test user credentials
 before '/users/*' do
-  begin
-    user = User.find(params['id'])
-    redirect to('/login') if !logged_in(params['id'],params['token'])
-  rescue
-    redirect to('/login')
-  end
+  user = User.find_by_id(params['id'])
+  redirect to('/login') if !user || !logged_in?(user, params['token'])
 end
 
 after do
