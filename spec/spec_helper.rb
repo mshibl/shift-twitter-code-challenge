@@ -12,11 +12,19 @@ require 'shoulda-matchers'
 require 'rack/test'
 require 'capybara'
 require 'capybara/rspec'
+require_relative 'helpers.rb'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.before(:suite) do
+  	system('be rake db:test:prepare')
+  end
+  config.include SpecHelpers
+  # be rake db:test:prepare
 end
 
 def app
   Sinatra::Application
 end
+
+Capybara.app = app

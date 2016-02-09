@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.0'
+# ruby '2.2.0'
 
 # PostgreSQL driver
 gem 'pg'
@@ -8,8 +8,8 @@ gem 'pg'
 gem 'sinatra'
 gem 'sinatra-contrib'
 
-gem 'activesupport', '~>4.1'
-gem 'activerecord', '~>4.1'
+gem 'activesupport'#, '~>4.1'
+gem 'activerecord'#, '~>4.1'
 
 gem 'rake'
 
@@ -21,7 +21,7 @@ gem 'byebug'
 
 gem 'hirb' # adds table styling in the console
 gem 'bcrypt' # adds passowrd encryption
-gem 'faker'
+gem 'faker' # adds data faking for seeding database (for testing)
 
 group :test do
   gem 'shoulda-matchers'

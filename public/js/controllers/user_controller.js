@@ -1,6 +1,6 @@
 shiftSampleApp
   .controller('UsersCtrl', function (UserService, AuthService, $routeParams, $scope, $http,$localStorage,$sessionStorage,$q,$location) {
-    
+
     if(!$scope.currentUser){$scope.currentUser = $localStorage.currentUser;}
 
     $scope.getUserData = function(id){
@@ -13,9 +13,29 @@ shiftSampleApp
     $scope.getUserTweets = function(id){
       UserService.getUserTweets(id)
         .then(function(response){
-                $scope.tweets = response.data
+                $scope.tweets = response
             })  
         } 
+
+    $scope.showTweetsTimeline = function(){
+        $scope.profileView = false
+        $scope.tweetPermission = true
+        UserService.getRelationshipsList()
+            .then(function(list){
+                $scope.tweets = []
+                friends = list['friends_list']
+                angular.forEach(friends, function(friend){
+                    UserService.getUserTweets(friend.id)
+                        .then(function(response){
+                            $scope.tweets = $.map( [$scope.tweets,response], function(n){
+                               return n;
+                            });
+                        })
+                    })
+                })
+            }
+
+    // $scope.showTweetsTimeline()
 
     $scope.getSuggestions = function(){
         UserService.getSuggestions()
@@ -33,6 +53,7 @@ shiftSampleApp
     // First Run
     $scope.showUserProfile($scope.currentUser.id)
     $scope.getSuggestions()
+    $scope.homeView = false
 
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
@@ -52,6 +73,15 @@ shiftSampleApp
                 console.log('Follow event was unsuccessful')
             })
         }
+
+    $scope.getRelationshipsList = function(){
+        UserService.getRelationshipsList()
+            .then(function(response){
+            //     // console.log(response)
+            })
+        }
+
+    // $scope.getRelationshipsList()
 
     $scope.logout = function(){
         AuthService.logout()

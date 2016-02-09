@@ -19,7 +19,7 @@ shiftSampleApp
 		    $http.get('/users/'+id+'/tweets')
 		    	.then(
 					function(response){
-						deferred.resolve(response)
+						deferred.resolve(response.data)
 					}, function(response){
 						console.log('failed while getting tweets')
 					})
@@ -58,6 +58,15 @@ shiftSampleApp
 				})
 			return deferred.promise;
 		};
+
+		userService.getRelationshipsList = function(){
+			var deferred = $q.defer();
+			$http.get('/users/'+$localStorage.currentUser.id+'/list')
+				.then(function(response){
+					deferred.resolve(response.data)
+				})
+			return deferred.promise;
+		}
 
 		return userService;
 	})

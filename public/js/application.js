@@ -25,12 +25,3 @@ shiftSampleApp
       // use the HTML5 History API
       // $locationProvider.html5Mode(true);
   });
-
-
-// shiftSampleApp
-//   .run(function($rootScope, $localStorage){
-//       var scope = $rootScope
-//       scope.currentUserId = $localStorage.currentUser.id
-
-//       scope.$watch(function)
-//   })
