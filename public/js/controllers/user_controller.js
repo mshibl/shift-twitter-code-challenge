@@ -18,9 +18,9 @@ shiftSampleApp
         } 
 
     $scope.showTweetsTimeline = function(){
-        $scope.profileView = false
+        $scope.tweetsView = true
         $scope.tweetPermission = true
-        UserService.getRelationshipsList()
+        UserService.getRelationshipsList($scope.currentUser.id)
             .then(function(list){
                 $scope.tweets = []
                 friends = list['friends_list']
@@ -36,8 +36,6 @@ shiftSampleApp
                 })
             }
 
-    // $scope.showTweetsTimeline()
-
     $scope.getSuggestions = function(){
         UserService.getSuggestions()
             .then(function(response){
@@ -49,12 +47,13 @@ shiftSampleApp
         $scope.tweetPermission = (id == $scope.currentUser.id)
         $scope.getUserData(id)
         $scope.getUserTweets(id)
+        $scope.tweetsView = true
     }
 
     // First Run
     $scope.showUserProfile($scope.currentUser.id)
     $scope.getSuggestions()
-    $scope.homeView = false
+    $scope.tweetsView = true
 
     $scope.postTweet = function(tweet){
         UserService.postTweet(tweet)
@@ -75,14 +74,19 @@ shiftSampleApp
             })
         }
 
-    $scope.getRelationshipsList = function(){
-        UserService.getRelationshipsList()
+    $scope.getRelationshipsList = function(id,list){
+        $scope.tweetsView = false;
+        UserService.getRelationshipsList(id)
             .then(function(response){
-            //     // console.log(response)
+                if(list=='friends'){
+                    $scope.list = response.friends_list
+                    $scope.friendsList = true
+                } else {
+                    $scope.list = response.followers_list;
+                    $scope.friendsList = false
+                }
             })
         }
-
-    // $scope.getRelationshipsList()
 
     $scope.logout = function(){
         AuthService.logout()

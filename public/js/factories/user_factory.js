@@ -58,9 +58,9 @@ shiftSampleApp
 			return deferred.promise;
 		};
 
-		userService.getRelationshipsList = function(){
+		userService.getRelationshipsList = function(id){
 			var deferred = $q.defer();
-			$http.get('/users/'+$localStorage.currentUser.id+'/list')
+			$http.get('/users/'+id+'/list')
 				.then(function(response){
 					deferred.resolve(response.data)
 				})

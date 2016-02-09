@@ -26,13 +26,19 @@ h3 {
     line-height: 30px;
 }
 
-h5 {
-	font-size: 14px;
-	margin: 0px;
-    font-weight: 200;
-    /*color: #555;*/
+h4 {
+    font-size: 16px;
+    font-weight: 400;
     line-height: 30px;
 }
+
+h5 {
+    font-size: 14px;
+    margin: 0px;
+    font-weight: 200;
+    line-height: 30px;
+}
+
 
 .user-title {
 	padding-right: 15px;
@@ -183,4 +189,27 @@ transition: width  0.2s ease-in-out;
 
 .tweet-thumbnail{
     margin-left: 15px;
+}
+
+.list-img{
+    margin-bottom: -70px;
+    width: 60%;
+}
+
+.list-card{
+    padding-top: 70px;
+}
+
+#relationship-card {
+    width: 130px;
+    padding: 0 10px 10px 10px;
+    margin-bottom: 30px;
+}
+
+#relationship-card h4 {
+    min-height: 60px;
+}
+
+#list-name{
+    text-align: center;
 }
