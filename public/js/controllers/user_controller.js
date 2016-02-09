@@ -22,7 +22,9 @@ shiftSampleApp
         $scope.tweetPermission = true
         UserService.getRelationshipsList()
             .then(function(list){
+                $scope.tweets = []
                 friends = list['friends_list']
+                friends.push($scope.currentUser)
                 angular.forEach(friends, function(friend){
                     UserService.getUserTweets(friend.id)
                         .then(function(response){
