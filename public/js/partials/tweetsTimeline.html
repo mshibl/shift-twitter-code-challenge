@@ -1,17 +1,17 @@
 <div class="col-md-6">
     <div class="thumbnail" ng-if="tweetPermission">
-        <label>Post a tweet</label>
+        <label>Share your thoughts</label>
         <form name="tweetForm" novalidate>
             <textarea ng-model="newTweet" rows="3" class="form-control" id="newTweet" name="tweet" form="tweetForm"></textarea>
             <div class="row post-tweet">
                 <div class="col-md-2 col-md-offset-10">
-                    <input type="submit" class="btn btn-default" ng-click="postTweet(newTweet)" value="Tweet" />
+                    <input type="submit" class="btn btn-default" ng-click="postTweet(newTweet)" value="Post" />
                 </div>
             </div>
         </form>
     </div>
 
-    <h4>Tweets</h4>
+    <h4>Posts</h4>
     <div class="thumbnail" ng-repeat="tweet in tweets | orderBy: '-created_at' | limitTo: 50"> <!-- Tweet Container -->
         <div class="row">
             <div class="col-xs-2">

@@ -133,7 +133,13 @@ h5 {
 
 .user-suggestions{
     text-align: center;
-    min-height: 40px;
+    display:block;
+    overflow:auto;
+}
+
+.user-suggestions img, .user-suggestions button{
+    margin-top: 25%;
+    margin-bottom: 25%;
 }
 
 #custom-search-form {
