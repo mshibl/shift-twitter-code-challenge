@@ -11,24 +11,20 @@ module HelperMethods
     return image
   end
 
-	def logged_in(id,token)
-		user = User.find(id)
-		user.token == token
-	end
+  def logged_in?(user, token)
+    user.token == token
+  end
 
   def get_user_suggestions(id,count)
     user = User.find(id)
-    start = 1
-    finish = count
+
     results = []
-    until results.count >= count do
-      candidates = User.where(id: (start..finish))
-      results << candidates.select{|candidate| (user.friends.include?(candidate) == false) && (candidate != user)}
-      results.flatten!
-      start = finish + 1
-      finish = start + count
+    User.find_each(batch_size: count) do |candidate|
+      results << candidate unless user.friends.include?(candidate)
+      break if results.length > count
     end
-      results.map!{|candidate| {id: candidate.id, first_name: candidate.first_name, last_name: candidate.last_name, image: candidate.image}}
+
+    results.map!{|candidate| {id: candidate.id, first_name: candidate.first_name, last_name: candidate.last_name, image: candidate.image}}
     return results
   end
 
